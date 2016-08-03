@@ -9,6 +9,8 @@ import {
 
 import Modal from './Modal';
 import SmallModal from './SmallModal';
+import NoTextModal from './NoTextModal';
+import AnimatedModal from './SmallModalAnimated';
 
 class MainApp extends Component {
   constructor(props) {
@@ -16,7 +18,9 @@ class MainApp extends Component {
 
     this.state = {
       isOpen: false,
-      isOpenSmall: false
+      isOpenSmall: false,
+      isOpenText: false,
+      isOpenAnimated: false
     }
   }
 
@@ -36,6 +40,22 @@ class MainApp extends Component {
     });
   }
 
+  _toggleNoTextModal() {
+    this.setState({
+        isOpenText: !this.state.isOpenText
+    }, () => {
+        console.log({isOpenText: this.state.isOpenText})
+    });
+  }
+
+  _toggleAnimatedModal() {
+    this.setState({
+        isOpenAnimated: !this.state.isOpenAnimated
+    }, () => {
+        console.log({isOpenAnimated: this.state.isOpenAnimated})
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -43,9 +63,17 @@ class MainApp extends Component {
          <TouchableOpacity style={styles.button} onPress={this._toggleModal.bind(this)} >
           <Text>Open Large Modal</Text>
         </TouchableOpacity>}
+        { this.state.isOpenText ? <NoTextModal onClose={this._toggleNoTextModal.bind(this)} /> : 
+         <TouchableOpacity style={styles.button} onPress={this._toggleNoTextModal.bind(this)} >
+          <Text>Open Large No Text Modal</Text>
+        </TouchableOpacity>}
         { this.state.isOpenSmall ? <SmallModal onClose={this._toggleSmallModal.bind(this)} /> : 
          <TouchableOpacity style={styles.button} onPress={this._toggleSmallModal.bind(this)} >
           <Text>Open Small Modal</Text>
+        </TouchableOpacity>}
+        { this.state.isOpenAnimated ? <AnimatedModal onClose={this._toggleAnimatedModal.bind(this)} /> : 
+         <TouchableOpacity style={styles.button} onPress={this._toggleAnimatedModal.bind(this)} >
+          <Text>Open Animated Modal</Text>
         </TouchableOpacity>}
       </View>
     );
@@ -60,7 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   button: {
-
+    height: 40
   }
 });
 

@@ -12,7 +12,7 @@ class ListItem extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => { this.props.onPress(this.props.text) }}>
           <Text>{this.props.text}</Text>
         </TouchableOpacity>
       </View>

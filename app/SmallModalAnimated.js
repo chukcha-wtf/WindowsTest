@@ -1,23 +1,43 @@
 import React, { Component } from 'react';
 import {
+  Animated,
   AppRegistry,
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 import ListItem from './ListItem';
 
-class SmallModal extends Component {
+class SmallModalAnimated extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      selectedItem: null
+      selectedItem: null,
+      isVisible: false
     }
+
+    this.offsetTop = new Animated.Value(0);
+  }
+
+  componentDidMount() {
+    this.setState({
+      isVisible: true
+    }, () => {
+      Animated.spring(this.offsetTop, {
+        toValue: 1,
+        friction: 26,
+        tension: 200,
+        velocity: 1.5
+      }).start();
+    })
   }
 
   _selectItem(item) {
@@ -26,12 +46,11 @@ class SmallModal extends Component {
     })
   }
 
-  render() {
-
+  _renderContent() {
     return (
-      <View style={styles.container}>
+      <View>
         <TouchableOpacity onPress={() => this.props.onClose()} >
-          <Text>Close Small Modal</Text>
+          <Text>Close Animated Modal</Text>
         </TouchableOpacity>
         <View>
           <Text>Selected Item: {this.state.selectedItem}</Text>
@@ -49,6 +68,22 @@ class SmallModal extends Component {
             <ListItem text="Item 10" onPress={this._selectItem.bind(this)} />
         </ScrollView>
       </View>
+    )
+  }
+
+  render() {
+
+    const translateY = this.offsetTop.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 200]
+    })
+
+    console.log({translateY})
+
+    return (
+      <Animated.View style={[styles.container, {transform: [{translateY}]}]}>
+        {this.state.isVisible ? React.cloneElement(this._renderContent()) : <View />}
+      </Animated.View>
     );
   }
 }
@@ -59,18 +94,19 @@ const styles = StyleSheet.create({
     height: 400,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'blue',
+    backgroundColor: 'yellow',
     position: 'absolute',
-    top: 200,
-    left: -100
+    left: -100,
+    top: 0
   },
 
   ScrollView: {
+      flex: 1,
       marginTop: 20,
       width: 400,
       height: 300,
       backgroundColor: 'green'
-  } 
+  }
 });
 
-export default SmallModal;
+export default SmallModalAnimated;
