@@ -6,9 +6,9 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
-    "react": "15.2.1",
-    "react-native": "0.29.0",
-    "react-native-windows": "^0.29.2"
+    "react": "15.3.0-rc.2",
+    "react-native": "0.32.0-rc.0",
+    "react-native-windows": "0.32.0-rc.0"
   },
   "devDependencies": {
     "rnpm-plugin-windows": "^0.1.1"

@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  InteractionManager
 } from 'react-native';
 
 import Modal from './Modal';
@@ -20,7 +21,10 @@ class MainApp extends Component {
       isOpen: false,
       isOpenSmall: false,
       isOpenText: false,
-      isOpenAnimated: false
+      isOpenAnimated: false,
+      timerStart: 0,
+      timerEnd: 0,
+      timerDiff: 0
     }
   }
 
@@ -56,9 +60,42 @@ class MainApp extends Component {
     });
   }
 
+  _setTimeout() {
+    const t1 = new Date();
+    this.setState({timerStart: t1.toString()});
+
+    setTimeout(() => {
+      const t2 = new Date();
+      const diff = t2 - t1;
+      this.setState({
+        timerEnd: t2.toString(),
+        timerDiff: diff
+      })
+    }, 500);
+  }
+
+  _runAfterInteractions() {
+    const t1 = new Date();
+    this.setState({timerStart: t1.toString()});
+
+    InteractionManager.runAfterInteractions(() => {
+      const t2 = new Date();
+      const diff = t2 - t1;
+      this.setState({
+        timerEnd: t2.toString(),
+        timerDiff: diff
+      })
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
+        <View>
+          <Text>Timer start: {this.state.timerStart}</Text>
+          <Text>Timer end: {this.state.timerEnd}</Text>
+          <Text>Timer diff: {this.state.timerDiff}</Text>
+        </View>
         { this.state.isOpen ? <Modal onClose={this._toggleModal.bind(this)} /> : 
          <TouchableOpacity style={styles.button} onPress={this._toggleModal.bind(this)} >
           <Text>Open Large Modal</Text>
@@ -75,6 +112,12 @@ class MainApp extends Component {
          <TouchableOpacity style={styles.button} onPress={this._toggleAnimatedModal.bind(this)} >
           <Text>Open Animated Modal</Text>
         </TouchableOpacity>}
+        <TouchableOpacity style={styles.button} onPress={this._setTimeout.bind(this)} >
+          <Text>Set timeout for 500ms</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={this._runAfterInteractions.bind(this)} >
+          <Text>Check 'runAfterInteractions'</Text>
+        </TouchableOpacity>
       </View>
     );
   }
