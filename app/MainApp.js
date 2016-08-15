@@ -63,7 +63,8 @@ class MainApp extends Component {
   _setTimeout() {
     const t1 = new Date();
     this.setState({timerStart: t1.toString()});
-
+    let tid = setTimeout(() => {console.log("5 minute timer expired")}, 60 * 5000 );
+    //clearTimeout(tid);
     setTimeout(() => {
       const t2 = new Date();
       const diff = t2 - t1;
@@ -96,19 +97,19 @@ class MainApp extends Component {
           <Text>Timer end: {this.state.timerEnd}</Text>
           <Text>Timer diff: {this.state.timerDiff}</Text>
         </View>
-        { this.state.isOpen ? <Modal onClose={this._toggleModal.bind(this)} /> : 
+        { this.state.isOpen ? <Modal onClose={this._toggleModal.bind(this)} /> :
          <TouchableOpacity style={styles.button} onPress={this._toggleModal.bind(this)} >
           <Text>Open Large Modal</Text>
         </TouchableOpacity>}
-        { this.state.isOpenText ? <NoTextModal onClose={this._toggleNoTextModal.bind(this)} /> : 
+        { this.state.isOpenText ? <NoTextModal onClose={this._toggleNoTextModal.bind(this)} /> :
          <TouchableOpacity style={styles.button} onPress={this._toggleNoTextModal.bind(this)} >
           <Text>Open Large No Text Modal</Text>
         </TouchableOpacity>}
-        { this.state.isOpenSmall ? <SmallModal onClose={this._toggleSmallModal.bind(this)} /> : 
+        { this.state.isOpenSmall ? <SmallModal onClose={this._toggleSmallModal.bind(this)} /> :
          <TouchableOpacity style={styles.button} onPress={this._toggleSmallModal.bind(this)} >
           <Text>Open Small Modal</Text>
         </TouchableOpacity>}
-        { this.state.isOpenAnimated ? <AnimatedModal onClose={this._toggleAnimatedModal.bind(this)} /> : 
+        { this.state.isOpenAnimated ? <AnimatedModal onClose={this._toggleAnimatedModal.bind(this)} /> :
          <TouchableOpacity style={styles.button} onPress={this._toggleAnimatedModal.bind(this)} >
           <Text>Open Animated Modal</Text>
         </TouchableOpacity>}
