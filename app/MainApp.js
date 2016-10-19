@@ -22,12 +22,12 @@ class MainApp extends Component {
   }
 
   render() {
-    const pressed = this.state.isPressed;
+    const pressed = this.state.isPressed ? "YES" : "NO";
 
     return (
       <View style={styles.container}>
         <Text>Pressed: {pressed}</Text>
-        <TouchableOpacity style={{color: 'green'}} onPress={this._togglePress.bind(this)} >
+        <TouchableOpacity style={{backgroundColor: 'green'}} onPress={this._togglePress.bind(this)} >
           <Text>Press Me</Text>
         </TouchableOpacity>
         <Text>If you're on mobile - you'll probably need to click here</Text>
@@ -37,7 +37,7 @@ class MainApp extends Component {
         <Text>And this is textInput that doesn't support minWidth property</Text>
         <Text>Which is sad, especially on mobile devices</Text>
         <Text>As minWidth by default is 64 px :(</Text>
-        <Text style={{color: 'red'}}>BTW, why there is a top margin of appx 22px at the top?</Text>
+        <Text style={{olor: 'red'}}>BTW, why there is a top margin of appx 22px at the top?</Text>
       </View>
     );
   }
