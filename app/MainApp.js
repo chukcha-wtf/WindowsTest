@@ -5,120 +5,42 @@ import {
   Text,
   View,
   TouchableOpacity,
-  InteractionManager
+  TextInput
 } from 'react-native';
 
 import Modal from './Modal';
 import SmallModal from './SmallModal';
-import NoTextModal from './NoTextModal';
-import AnimatedModal from './SmallModalAnimated';
 
 class MainApp extends Component {
   constructor(props) {
     super(props);
-
+  
     this.state = {
-      isOpen: false,
-      isOpenSmall: false,
-      isOpenText: false,
-      isOpenAnimated: false,
-      timerStart: 0,
-      timerEnd: 0,
-      timerDiff: 0
-    }
+      isPressed: false
+    };
   }
 
-  _toggleModal() {
-    this.setState({
-        isOpen: !this.state.isOpen
-    }, () => {
-        console.log({isOpen: this.state})
-    });
-  }
-
-  _toggleSmallModal() {
-    this.setState({
-        isOpenSmall: !this.state.isOpenSmall
-    }, () => {
-        console.log({isOpenSmall: this.state.isOpenSmall})
-    });
-  }
-
-  _toggleNoTextModal() {
-    this.setState({
-        isOpenText: !this.state.isOpenText
-    }, () => {
-        console.log({isOpenText: this.state.isOpenText})
-    });
-  }
-
-  _toggleAnimatedModal() {
-    this.setState({
-        isOpenAnimated: !this.state.isOpenAnimated
-    }, () => {
-        console.log({isOpenAnimated: this.state.isOpenAnimated})
-    });
-  }
-
-  _setTimeout() {
-    const t1 = new Date();
-    this.setState({timerStart: t1.toString()});
-    let tid = setTimeout(() => {console.log("5 minute timer expired")}, 60 * 5000 );
-    //clearTimeout(tid);
-    setTimeout(() => {
-      const t2 = new Date();
-      const diff = t2 - t1;
-      this.setState({
-        timerEnd: t2.toString(),
-        timerDiff: diff
-      })
-    }, 500);
-  }
-
-  _runAfterInteractions() {
-    const t1 = new Date();
-    this.setState({timerStart: t1.toString()});
-
-    InteractionManager.runAfterInteractions(() => {
-      const t2 = new Date();
-      const diff = t2 - t1;
-      this.setState({
-        timerEnd: t2.toString(),
-        timerDiff: diff
-      })
-    });
+  _togglePress() {
+    this.setState({isPressed: !this.state.isPressed});
   }
 
   render() {
+    const pressed = this.state.isPressed;
+
     return (
       <View style={styles.container}>
-        <View>
-          <Text>Timer start: {this.state.timerStart}</Text>
-          <Text>Timer end: {this.state.timerEnd}</Text>
-          <Text>Timer diff: {this.state.timerDiff}</Text>
-        </View>
-        { this.state.isOpen ? <Modal onClose={this._toggleModal.bind(this)} /> :
-         <TouchableOpacity style={styles.button} onPress={this._toggleModal.bind(this)} >
-          <Text>Open Large Modal</Text>
-        </TouchableOpacity>}
-        { this.state.isOpenText ? <NoTextModal onClose={this._toggleNoTextModal.bind(this)} /> :
-         <TouchableOpacity style={styles.button} onPress={this._toggleNoTextModal.bind(this)} >
-          <Text>Open Large No Text Modal</Text>
-        </TouchableOpacity>}
-        { this.state.isOpenSmall ? <SmallModal onClose={this._toggleSmallModal.bind(this)} /> :
-         <TouchableOpacity style={styles.button} onPress={this._toggleSmallModal.bind(this)} >
-          <Text>Open Small Modal</Text>
-        </TouchableOpacity>}
-        { this.state.isOpenAnimated ? <AnimatedModal onClose={this._toggleAnimatedModal.bind(this)} /> :
-         <TouchableOpacity style={styles.button} onPress={this._toggleAnimatedModal.bind(this)} >
-          <Text>Open Animated Modal</Text>
-        </TouchableOpacity>}
-        <TouchableOpacity style={styles.button} onPress={this._setTimeout.bind(this)} >
-          <Text>Set timeout for 500ms</Text>
+        <Text>Pressed: {pressed}</Text>
+        <TouchableOpacity style={{color: 'green'}} onPress={this._togglePress.bind(this)} >
+          <Text>Press Me</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={this._runAfterInteractions.bind(this)} >
-          <Text>Check 'runAfterInteractions'</Text>
-        </TouchableOpacity>
+        <Text>If you're on mobile - you'll probably need to click here</Text>
+        <Text>Despite the fact that I'm just text</Text>
+        <Text>Isn't this weird?</Text>
+        <TextInput style={{width: 20, minWidth: 20}} value="I'm long text input"/>
+        <Text>And this is textInput that doesn't support minWidth property</Text>
+        <Text>Which is sad, especially on mobile devices</Text>
+        <Text>As minWidth by default is 64 px :(</Text>
+        <Text style={{color: 'red'}}>BTW, why there is a top margin of appx 22px at the top?</Text>
       </View>
     );
   }
@@ -130,9 +52,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  button: {
-    height: 40
   }
 });
 
