@@ -8,9 +8,6 @@ import {
   TextInput
 } from 'react-native';
 
-import Modal from './Modal';
-import SmallModal from './SmallModal';
-
 class MainApp extends Component {
   constructor(props) {
     super(props);
